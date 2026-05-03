@@ -12,6 +12,8 @@ export function generateOTP(length: number = 6): string {
 
 
 export async function SendEmail(to: string, subject: string, text: string, html: string) {
+
+    console.log(arguments)
     // Create a transporter using Ethereal test credentials.
     // For production, replace with your actual SMTP server details.
     const transporter = nodemailer.createTransport({

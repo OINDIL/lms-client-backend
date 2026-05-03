@@ -77,6 +77,8 @@ export async function SignupController(req: Request<{}, {}, {
     try {
         const { name, email, password, role, age } = req.body;
 
+        console.log({ name, email, password, role, age });
+
         if (!name.trim() || !email.trim() || !password.trim()) {
             return res.status(400).json({
                 success: false,
