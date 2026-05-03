@@ -36,3 +36,21 @@ export async function SignUpAction(name: string, email: string, password: string
     return data;
 
 }
+
+
+export async function VerifyOtpAction(email: string, otp: string): Promise<{
+    success: boolean,
+    message: string
+}> {
+    const req = await fetch(`${process.env.BACKEND_URL}/api/verify`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ otp, email })
+    });
+
+    const data = await req.json();
+
+    return data;
+}

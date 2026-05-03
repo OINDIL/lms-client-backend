@@ -107,15 +107,15 @@ export async function SignupController(req: Request<{}, {}, {
         // send mail to user email
 
 
-        const mailSent = await SendEmail(email, 'OTP for verification', `Login to your LMS with this otp ${generatedOtp}`, `<h1>Login to your LMS with this OTP ${generatedOtp}</h1>`);
+        // const mailSent = await SendEmail(email, 'OTP for verification', `Login to your LMS with this otp ${generatedOtp}`, `<h1>Login to your LMS with this OTP ${generatedOtp}</h1>`);
 
 
-        if (!mailSent) {
-            return res.status(400).json({
-                success: false,
-                message: "Unable to complete request, Please try again later."
-            })
-        }
+        // if (!mailSent) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: "Unable to complete request, Please try again later."
+        //     })
+        // }
 
         const createdUser = await prisma.users.create({
             data: {
@@ -156,11 +156,12 @@ export async function VerifyUser(req: Request<{}, {}, {
 }>, res: Response<ResponseWithSuccessAndMessage>) {
     try {
         const { otp, email } = req.body;
+        console.log(otp)
 
         if (!otp.trim() || !email.trim()) {
             return res.status(400).json({
                 success: false,
-                message: "No OTP found!"
+                message: "No OTP found."
             })
         }
 
@@ -173,14 +174,14 @@ export async function VerifyUser(req: Request<{}, {}, {
         if (!foundUser) {
             return res.status(400).json({
                 success: false,
-                message: "No User found!"
+                message: "No User found."
             })
         }
 
         if (foundUser.otp !== otp) {
             return res.status(400).json({
                 success: false,
-                message: "Otp not matched, try again"
+                message: "Incorrect OTP. Please try again."
             })
         }
 
@@ -197,7 +198,7 @@ export async function VerifyUser(req: Request<{}, {}, {
 
         res.json({
             success: true,
-            message: "Verified User"
+            message: "Verified User. Redirecting..."
         })
 
     } catch (error) {

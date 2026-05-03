@@ -9,8 +9,10 @@ import { useState } from "react";
 import { SignUpAction } from "@/actions/auth-action"
 import { toast } from 'sonner';
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function SignUpComponent() {
+    const router = useRouter();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -21,11 +23,14 @@ export default function SignUpComponent() {
 
 
     const handleLogin = async () => {
+
         const { success, message } = await SignUpAction(formData.name, formData.email, formData.password, formData.age);
 
         if (!success) return toast.error(message);
 
-        toast.success(message)
+        toast.success(message, {
+            onAutoClose: () => router.push(`/verify-otp?email=${formData.email}`)
+        })
 
         // TODO: redirection pending
     }
