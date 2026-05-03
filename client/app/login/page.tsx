@@ -9,9 +9,11 @@ import { useState } from "react";
 import { LoginAction } from "@/actions/auth-action"
 import { toast } from 'sonner';
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function LoginComponent() {
 
+    const router = useRouter()
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -23,9 +25,9 @@ export default function LoginComponent() {
 
         if (!success) return toast.error(message);
 
-        toast.success(message)
-
-        // TODO: redirection pending
+        toast.success(message, {
+            onAutoClose: () => router.push('/dashboard')
+        })
     }
     return (
         <section className="flex min-h-screen justify-center items-center">

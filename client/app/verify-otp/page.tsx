@@ -38,8 +38,6 @@ export default function VerifyOtp() {
         toast.success(message, {
             onAutoClose: () => router.push(`/dashboard`)
         })
-
-        // TODO: redirection pending
     }
 
     return (
