@@ -212,10 +212,39 @@ export async function VerifyUser(req: Request<{}, {}, {
 }
 
 
-async function CheckLogin(req: Request, res: Response) {
+export async function CheckLogin(req: Request, res: Response) {
   try {
+    const userId = req.user;
 
+    if (!userId) return res.status(400).json({
+      success: false,
+      message: "User not found"
+    })
+    // return name
+    const name = await prisma.users.findUnique({
+      where: {
+        id: userId as string,
+      },
+      select: {
+        name: true
+      }
+    })
+
+    if (!name) return res.status(400).json({
+      success: false,
+      message: "User not found"
+    });
+
+
+    res.json({
+      success: true,
+      message: "User is authenticated",
+      data: name
+    });
   } catch (error) {
-
+    res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    })
   }
 }

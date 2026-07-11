@@ -21,12 +21,12 @@ export async function AuthMiddleware(req: Request, res: Response, next: NextFunc
 
     const verifiedToken = jwt.verify(cookies.token, secret);
 
-    // console.log(verifiedToken)
-
     if (!verifiedToken) return res.status(400).json({
       success: false,
       message: "Unauthorized"
     })
+
+    req.user = verifiedToken;
 
     next()
   }

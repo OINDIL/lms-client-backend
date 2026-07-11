@@ -3,28 +3,34 @@
 import { CheckLogin } from "@/actions/auth-action";
 import { useEffect, useState } from "react";
 
-
-
-
 export function useAuth() {
-  const [authenticated, setAuthenticated] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [authenticated, setAuthenticated] = useState({
+    status: false,
+    name: ''
+  })
+  const [loading, setLoading] = useState(true)
 
 
   useEffect(() => {
-    setLoading(true)
     const handleCheckLogin = async () => {
-      const { success } = await CheckLogin()
+      try {
+        const response = await CheckLogin()
 
-      console.log(success)
-
-      if (success) { setAuthenticated(true) }
+        if (response.success && response.data) {
+          setAuthenticated({
+            status: true,
+            name: response.data.name,
+          })
+        }
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
     }
 
     handleCheckLogin()
-    setLoading(false)
   }, [])
 
   return { authenticated, loading }
-
 }
