@@ -48,9 +48,8 @@ model Lessons {
   name String
   desc String
 
-  rating      Int    @default(0)
-  videoUrl    String
-  timesPlayed BigInt @default(0)
+  rating  Int    @default(0)
+  videoId String
 
   courses   Courses? @relation(fields: [coursesId], references: [id])
   coursesId String?

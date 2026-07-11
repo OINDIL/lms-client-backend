@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv"
 import LoginRouter from "./router/auth.router.js";
-
+import cookieParser from "cookie-parser"
 dotenv.config();
 
 
@@ -9,13 +9,14 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(express.json());
+app.use(cookieParser())
 
 
 app.get('/test', (req, res) => {
-    res.json({
-        success: true,
-        message: "Server is running"
-    })
+  res.json({
+    success: true,
+    message: "Server is running"
+  })
 });
 
 
