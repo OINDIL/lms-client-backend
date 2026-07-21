@@ -35,7 +35,6 @@ model Courses {
 
   name     String
   desc     String
-  imageUrl String
 
   lessons Lessons[]
   users   Users?    @relation(fields: [usersId], references: [id])

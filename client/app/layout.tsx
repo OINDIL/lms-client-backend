@@ -20,7 +20,7 @@ export default function RootLayout({
       lang="en"
       className={`dark ${inter.className} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col px-5">{children}
+      <body className="min-h-full px-5">{children}
         <Toaster />
       </body>
     </html>
