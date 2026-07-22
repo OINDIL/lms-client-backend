@@ -221,16 +221,17 @@ export async function CheckLogin(req: Request, res: Response) {
       message: "User not found"
     })
     // return name
-    const name = await prisma.users.findUnique({
+    const authUser = await prisma.users.findUnique({
       where: {
         id: userId as string,
       },
       select: {
-        name: true
+        name: true,
+        role: true,
       }
     })
-
-    if (!name) return res.status(400).json({
+    // console.log(name)
+    if (!authUser) return res.status(400).json({
       success: false,
       message: "User not found"
     });
@@ -239,7 +240,7 @@ export async function CheckLogin(req: Request, res: Response) {
     res.json({
       success: true,
       message: "User is authenticated",
-      data: name
+      data: authUser
     });
   } catch (error) {
     res.status(500).json({

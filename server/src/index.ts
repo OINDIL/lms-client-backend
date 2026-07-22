@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv"
 import LoginRouter from "./router/auth.router.js";
+import CourseRouter from "./router/course.router.js"
 import cookieParser from "cookie-parser"
 dotenv.config();
 
@@ -21,5 +22,6 @@ app.get('/test', (req, res) => {
 
 
 app.use('/api', LoginRouter);
+app.use('/api/course', CourseRouter)
 
 app.listen(port, () => console.log(`Server is running: http://localhost:${port}`))

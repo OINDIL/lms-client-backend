@@ -10,8 +10,42 @@ import {
     DropdownMenuContent,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useAuth } from "@/hooks/useAuth"
+import { Loader2 } from "lucide-react"
+import Link from "next/link"
+import { createCourseAction } from "@/actions/course-action"
+import { useState } from "react"
 
 export default function AdminDashboard() {
+    const { authenticated, loading } = useAuth();
+    const [courseData, setCourseData] = useState({
+        name: "",
+        desc: ""
+    })
+
+    if (loading) {
+        return (
+            <section className="max-w-6xl mx-auto px-8 py-4 min-h-screen flex items-center justify-center">
+                <Loader2 className="animate-spin" />
+            </section>
+        )
+    }
+
+    if (!loading && !authenticated.status) return (
+        <section className="max-w-6xl mx-auto px-8 py-4 min-h-screen text-red-300">User not authenticated</section>
+    )
+
+    if (!authenticated.isAdmin) {
+        return (
+            <section className="space-y-2 max-w-6xl mx-auto px-8 py-4 min-h-screen text-red-300">
+                <p> You do not have enough permissions to view this page</p>
+                <Link href={'/login'} className={buttonVariants()}>Go Back</Link>
+            </section>
+        )
+    }
+
+
+
     return (
         <section className="max-w-6xl mx-auto px-8 py-5">
             <div>
@@ -29,15 +63,21 @@ export default function AdminDashboard() {
                     <CardContent className="space-y-3">
                         <div className="space-y-2">
                             <Label htmlFor="course-name">Course Name</Label>
-                            <Input name="course-name" id="course-name" placeholder="Name your class in short" />
+                            <Input name="course-name" id="course-name" placeholder="Name your class in short" onChange={(e) => {
+                                setCourseData({ ...courseData, name: e.target.value })
+                            }} />
                         </div>
 
                         <div className="space-y-2">
                             <Label htmlFor="course-desc">Course Description</Label>
-                            <Input name="course-desc" id="course-desc" placeholder="Give your class a short description" />
+                            <Input name="course-desc" id="course-desc" placeholder="Give your class a short description"
+                                onChange={(e) => {
+                                    setCourseData({ ...courseData, desc: e.target.value })
+                                }}
+                            />
                         </div>
 
-                        <Button>Create Course</Button>
+                        <Button onClick={() => createCourseAction(courseData.name, courseData.desc)}>Create Course</Button>
                     </CardContent>
                 </Card>
                 <Separator className="my-4" />

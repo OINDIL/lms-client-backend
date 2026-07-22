@@ -67,7 +67,7 @@ export async function VerifyOtpAction(email: string, otp: string): Promise<{
 }
 
 
-export async function CheckLogin(): Promise<{ success: boolean, message: string, data?: { name: string } }> {
+export async function CheckLogin(): Promise<{ success: boolean, message: string, data?: { name: string, role: "ADMIN" | "STUDENT" } }> {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 

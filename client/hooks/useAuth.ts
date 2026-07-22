@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 export function useAuth() {
   const [authenticated, setAuthenticated] = useState({
     status: false,
-    name: ''
+    name: '',
+    isAdmin: false,
   })
   const [loading, setLoading] = useState(true)
 
@@ -20,6 +21,7 @@ export function useAuth() {
           setAuthenticated({
             status: true,
             name: response.data.name,
+            isAdmin: (response.data.role === "ADMIN"),
           })
         }
       } catch (error) {

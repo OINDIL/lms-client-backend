@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react"
 
 export default function Dashboard() {
 
-  const { authenticated, loading } = useAuth()
+  const { authenticated, loading } = useAuth();
 
   if (loading) {
     return (
